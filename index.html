@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Berkah Zone ☪️ - Website Islami</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #2E8B57 0%, #3CB371 50%, #20B2AA 100%);
+            min-height: 100vh;
+            color: white;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            animation: fadeInDown 1s ease-out;
+        }
+
+        .header h1 {
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            color: #FFD700;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            font-style: italic;
+        }
+
+        .bismillah {
+            text-align: center;
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            animation: pulse 3s infinite;
+        }
+
+        .game-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .game-card {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 25px;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .game-card:hover {
+            transform: translateY(-10px);
+            background: rgba(255, 255, 255, 0.25);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            border-color: rgba(255, 215, 0, 0.5);
+        }
+
+        .game-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            color: #FFD700;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        }
+
+        .btn {
+            background: linear-gradient(45deg, #228B22, #32CD32);
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            color: white;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 5px;
+            min-width: 140px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .btn:hover {
+            transform: scale(1.05);
+            background: linear-gradient(45deg, #32CD32, #228B22);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+
+        .btn:active {
+            transform: scale(0.95);
+        }
+
+        .result {
+            margin-top: 15px;
+            padding: 15px;
+            background: rgba(0,0,0,0.2);
+            border-radius: 10px;
+            min-height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            line-height: 1.4;
+            text-align: center;
+        }
+
+        .arabic-text {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #FFD700;
+            margin: 10px 0;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        }
+
+        .translation {
+            font-style: italic;
+            opacity: 0.9;
+            margin-top: 10px;
+            font-size: 0.9rem;
+        }
+
+        .counter {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #FFD700;
+            margin: 10px 0;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .tasbih-counter {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            margin: 15px 0;
+        }
+
+        .reset-btn {
+            background: linear-gradient(45deg, #DC143C, #B22222);
+            font-size: 0.9rem;
+            padding: 8px 15px;
+            min-width: 80px;
+        }
+
+        .reset-btn:hover {
+            background: linear-gradient(45deg, #B22222, #DC143C);
+        }
+
+        .prayer-times {
+            background: rgba(255, 215, 0, 0.1);
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            opacity: 0.8;
+            font-size: 0.9rem;
+            background: rgba(0,0,0,0.1);
+            padding: 20px;
+            border-radius: 15px;
+        }
+
+        .floating-stars {
+            position: fixed;
+            pointer-events: none;
+            font-size: 1.5rem;
+            animation: float 4s ease-in-out infinite;
+            z-index: 1000;
+            color: #FFD700;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px) rotate(0deg);
+                opacity: 0.7;
+            }
+            50% {
+                transform: translateY(-20px) rotate(180deg);
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+                box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+            }
+            50% {
+                transform: scale(1.02);
+                box-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .header h1 {
+                font-size: 2.2rem;
+            }
+            .game-grid {
+                grid-template-columns: 1fr;
+            }
+            .bismillah {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>☪️ BERKAH ZONE ☪️</h1>
+            <p>Website Islami untuk mengisi waktu dengan kebaikan</p>
+        </div>
+
+        <div class="bismillah">
+            بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ<br>
+            <small>Bismillahirrahmanirrahim</small>
+        </div>
+
+        <div class="game-grid">
+            <div class="game-card">
+                <h3>📿 Tasbih Digital</h3>
+                <p>Berzikir dengan mudah dimana saja</p>
+                <button class="btn" onclick="addTasbih('tasbih')">SubhanAllah</button>
+                <button class="btn" onclick="addTasbih('tasbih')">Alhamdulillah</button>
+                <button class="btn" onclick="addTasbih('tasbih')">Allahu Akbar</button>
+                <div class="tasbih-counter">
+                    <div class="counter" id="tasbih-counter">0</div>
+                    <button class="btn reset-btn" onclick="resetCounter('tasbih')">Reset</button>
+                </div>
+                <div class="result" id="tasbih-result">Mari berzikir untuk mendekatkan diri kepada Allah SWT</div>
+            </div>
+
+            <div class="game-card">
+                <h3>🌹 Sholawat Counter</h3>
+                <p>Perbanyaklah sholawat kepada Rasulullah SAW</p>
+                <div class="arabic-text" style="font-size: 1rem; margin-bottom: 10px;">
+                    اللَّهُمَّ صَلِّ وَسَلِّمْ عَلَى نَبِيِّنَا مُحَمَّدٍ
+                </div>
+                <button class="btn" onclick="addTasbih('sholawat')">Sholawat</button>
+                <div class="tasbih-counter">
+                    <div class="counter" id="sholawat-counter">0</div>
+                    <button class="btn reset-btn" onclick="resetCounter('sholawat')">Reset</button>
+                </div>
+                <div class="result" id="sholawat-result">Allahumma sholli wa sallim 'ala nabiyyina Muhammad ﷺ</div>
+            </div>
+
+            <div class="game-card">
+                <h3>🤲 Istighfar Counter</h3>
+                <p>Memohon ampunan kepada Allah SWT</p>
+                <div class="arabic-text" style="font-size: 1rem; margin-bottom: 10px;">
+                    أَسْتَغْفِرُ اللَّهَ الْعَظِيمَ
+                </div>
+                <button class="btn" onclick="addTasbih('istighfar')">Astaghfirullah</button>
+                <div class="tasbih-counter">
+                    <div class="counter" id="istighfar-counter">0</div>
+                    <button class="btn reset-btn" onclick="resetCounter('istighfar')">Reset</button>
+                </div>
+                <div class="result" id="istighfar-result">Astaghfirullaha al-'azhim - Aku memohon ampun kepada Allah Yang Maha Agung</div>
+            </div>
+
+            <div class="game-card">
+                <h3>🤲 Doa Harian</h3>
+                <p>Dapatkan doa-doa pilihan untuk kehidupan sehari-hari</p>
+                <button class="btn" onclick="getDailyDua()">Doa Hari Ini</button>
+                <div class="result" id="dua-result">Klik untuk mendapatkan doa harian yang bermanfaat</div>
+            </div>
+
+            <div class="game-card">
+                <h3>📖 Ayat Al-Quran</h3>
+                <p>Renungkan ayat-ayat suci Al-Quran</p>
+                <button class="btn" onclick="getQuranVerse()">Ayat Pilihan</button>
+                <div class="result" id="quran-result">Dapatkan hikmah dari ayat-ayat Al-Quran</div>
+            </div>
+
+            <div class="game-card">
+                <h3>🌙 Waktu Sholat</h3>
+                <p>Pengingat waktu sholat (perkiraan untuk Indonesia)</p>
+                <button class="btn" onclick="showPrayerTimes()">Lihat Jadwal</button>
+                <div class="result" id="prayer-result">Klik untuk melihat waktu sholat hari ini</div>
+            </div>
+
+            <div class="game-card">
+                <h3>💡 Nasihat Islami</h3>
+                <p>Kata-kata hikmah untuk menyejukkan hati</p>
+                <button class="btn" onclick="getWisdom()">Nasihat Hari Ini</button>
+                <div class="result" id="wisdom-result">Dapatkan nasihat yang menyejukkan hati dan pikiran</div>
+            </div>
+
+            <div class="game-card">
+                <h3>🎯 Challenge Amal</h3>
+                <p>Tantangan kebaikan untuk hari ini</p>
+                <button class="btn" onclick="getGoodDeedChallenge()">Challenge Hari Ini</button>
+                <div class="result" id="challenge-result">Siap untuk challenge kebaikan hari ini?</div>
+            </div>
+
+            <div class="game-card">
+                <h3>🌟 Asmaul Husna</h3>
+                <p>Pelajari 99 nama indah Allah SWT</p>
+                <button class="btn" onclick="getAsmaulHusna()">Nama Allah</button>
+                <div class="result" id="asma-result">Mari mengenal keindahan nama-nama Allah SWT</div>
+            </div>
+
+            <div class="game-card">
+                <h3>🕌 Hadits Motivasi</h3>
+                <p>Sabda Rasulullah SAW yang menginspirasi</p>
+                <button class="btn" onclick="getHadith()">Hadits Pilihan</button>
+                <div class="result" id="hadith-result">Dapatkan inspirasi dari sabda Rasulullah SAW</div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p><strong>اللَّهُمَّ بَارِكْ لَنَا</strong></p>
+            <p>Allahumma barik lana (Ya Allah, berkahilah kami)</p>
+            <br>
+            <p>Semoga website ini bermanfaat dan menjadi ladang pahala</p>
+            <p>Bagikan ke keluarga dan teman-teman muslim 📱💚</p>
+        </div>
+    </div>
+
+    <script>
+        let tasbihCount = 0;
+        let sholawatCount = 0;
+        let istighfarCount = 0;
+
+        const dailyDuas = [
+            {
+                arabic: "رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الْآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ",
+                translation: "Ya Tuhan kami, berilah kami kebaikan di dunia dan kebaikan di akhirat, dan peliharalah kami dari azab neraka."
+            },
+            {
+                arabic: "رَبِّ اشْرَحْ لِي صَدْرِي وَيَسِّرْ لِي أَمْرِي",
+                translation: "Ya Tuhanku, lapangkanlah dadaku dan mudahkanlah urusanku."
+            },
+            {
+                arabic: "اللَّهُمَّ أَعِنِّي عَلَى ذِكْرِكَ وَشُكْرِكَ وَحُسْنِ عِبَادَتِكَ",
+                translation: "Ya Allah, tolonglah aku untuk mengingat-Mu, mensyukuri-Mu, dan beribadah dengan baik kepada-Mu."
+            },
+            {
+                arabic: "رَبَّنَا هَبْ لَنَا مِنْ أَزْوَاجِنَا وَذُرِّيَّاتِنَا قُرَّةَ أَعْيُنٍ",
+                translation: "Ya Tuhan kami, anugerahkanlah kepada kami pasangan dan keturunan yang menyejukkan mata."
+            },
+            {
+                arabic: "اللَّهُمَّ اغْفِرْ لِي ذَنْبِي وَوَسِّعْ لِي فِي دَارِي وَبَارِكْ لِي فِي رِزْقِي",
+                translation: "Ya Allah, ampunilah dosaku, lapangkanlah rumahku, dan berkahilah rezekiku."
+            }
+        ];
+
+        const quranVerses = [
+            {
+                arabic: "وَمَن يَتَّقِ اللَّهَ يَجْعَل لَّهُ مَخْرَجًا وَيَرْزُقْهُ مِنْ حَيْثُ لَا يَحْتَسِبُ",
+                translation: "Barangsiapa yang bertakwa kepada Allah niscaya Dia akan mengadakan baginya jalan keluar, dan memberinya rezeki dari arah yang tiada disangka-sangkanya. (QS. At-Talaq: 2-3)"
+            },
+            {
+                arabic: "فَإِنَّ مَعَ الْعُسْرِ يُسْرًا إِنَّ مَعَ الْعُسْرِ يُسْرًا",
+                translation: "Karena sesungguhnya sesudah kesulitan itu ada kemudahan. Sesungguhnya sesudah kesulitan itu ada kemudahan. (QS. Al-Insyirah: 5-6)"
+            },
+            {
+                arabic: "وَاللَّهُ غَالِبٌ عَلَىٰ أَمْرِهِ وَلَٰكِنَّ أَكْثَرَ النَّاسِ لَا يَعْلَمُونَ",
+                translation: "Dan Allah berkuasa terhadap urusan-Nya, tetapi kebanyakan manusia tiada mengetahui. (QS. Yusuf: 21)"
+            },
+            {
+                arabic: "وَهُوَ الَّذِي يُنَزِّلُ الْغَيْثَ مِن بَعْدِ مَا قَنَطُوا وَيَنشُرُ رَحْمَتَهُ",
+                translation: "Dan Dialah yang menurunkan hujan sesudah mereka berputus asa dan menyebarkan rahmat-Nya. (QS. Asy-Syura: 28)"
+            }
+        ];
+
+        const islamicWisdom = [
+            "Sabar adalah kunci dari segala kebaikan. Bersabarlah dalam menghadapi ujian hidup.",
+            "Syukur adalah jalan menuju kebahagiaan sejati. Bersyukurlah atas nikmat yang telah diberikan.",
+            "Tawadhu (rendah hati) adalah perhiasan orang-orang yang beriman.",
+            "Berbuat baik kepada sesama adalah investasi terbaik untuk akhirat.",
+            "Ilmu adalah cahaya yang menerangi jalan menuju kebenaran.",
+            "Doa adalah senjata orang mukmin. Jangan pernah lelah berdoa.",
+            "Ikhlas dalam beramal akan mendatangkan berkah yang berlimpah.",
+            "Silaturahmi adalah kunci rezeki dan panjang umur.",
+            "Jujur adalah sifat yang paling mulia dan disukai Allah SWT.",
+            "Ridha Allah terletak pada ridha orang tua. Berbaktilah kepada mereka."
+        ];
+
+        const goodDeedChallenges = [
+            "Sedekah kepada yang membutuhkan, meski hanya Rp 1.000",
+            "Baca Al-Quran minimal 1 halaman hari ini",
+            "Hubungi orang tua atau keluarga untuk menanyakan kabar",
+            "Sholat berjamaah di masjid (untuk yang bisa)",
+            "Bantu tetangga atau teman yang sedang kesulitan",
+            "Baca istighfar 100 kali hari ini",
+            "Berbagi makanan atau minuman kepada orang lain",
+            "Membersihkan masjid atau tempat ibadah",
+            "Mengajarkan ilmu yang bermanfaat kepada orang lain",
+            "Berdoa untuk kebaikan semua orang yang kamu kenal"
+        ];
+
+        const asmaulHusna = [
+            { arabic: "الرَّحْمَنُ", name: "Ar-Rahman", meaning: "Yang Maha Pengasih" },
+            { arabic: "الرَّحِيمُ", name: "Ar-Rahim", meaning: "Yang Maha Penyayang" },
+            { arabic: "الْغَفُورُ", name: "Al-Ghafur", meaning: "Yang Maha Pengampun" },
+            { arabic: "الصَّبُورُ", name: "As-Sabur", meaning: "Yang Maha Sabar" },
+            { arabic: "الْكَرِيمُ", name: "Al-Karim", meaning: "Yang Maha Mulia" },
+            { arabic: "الْحَكِيمُ", name: "Al-Hakim", meaning: "Yang Maha Bijaksana" },
+            { arabic: "الْقَادِرُ", name: "Al-Qadir", meaning: "Yang Maha Berkuasa" },
+            { arabic: "الْجَمِيلُ", name: "Al-Jamil", meaning: "Yang Maha Indah" }
+        ];
+
+        const hadithCollection = [
+            {
+                text: "Sebaik-baik manusia adalah yang paling bermanfaat bagi manusia lainnya.",
+                source: "(HR. Ahmad, Thabrani)"
+            },
+            {
+                text: "Senyum kepada saudaramu adalah sedekah.",
+                source: "(HR. Tirmidzi)"
+            },
+            {
+                text: "Barangsiapa yang mempermudah kesulitan seorang mukmin, maka Allah akan mempermudah kesulitannya di dunia dan akhirat.",
+                source: "(HR. Muslim)"
+            },
+            {
+                text: "Tidaklah iman salah seorang di antara kalian sempurna hingga dia mencintai saudaranya seperti mencintai dirinya sendiri.",
+                source: "(HR. Bukhari dan Muslim)"
+            }
+        ];
+
+        function addTasbih(type) {
+            if (type === 'tasbih') {
+                tasbihCount++;
+                document.getElementById('tasbih-counter').textContent = tasbihCount;
+                
+                if (tasbihCount % 33 === 0) {
+                    document.getElementById('tasbih-result').innerHTML = `🌟 SubhanAllah! Anda telah berzikir ${tasbihCount} kali. Semoga Allah meridhoi amal ibadah Anda! 🌟`;
+                    createFloatingStars();
+                } else if (tasbihCount % 10 === 0) {
+                    document.getElementById('tasbih-result').innerHTML = `✨ Alhamdulillah! ${tasbihCount} zikir telah terhitung. Teruslah berzikir! ✨`;
+                } else {
+                    const messages = ["Barakallahu fiik", "Allahu a'lam", "Taqabbalallahu minna", "Jazakallahu khairan"];
+                    document.getElementById('tasbih-result').innerHTML = messages[Math.floor(Math.random() * messages.length)] + " 🤲";
+                }
+            } else if (type === 'sholawat') {
+                sholawatCount++;
+                document.getElementById('sholawat-counter').textContent = sholawatCount;
+                
+                if (sholawatCount % 100 === 0) {
+                    document.getElementById('sholawat-result').innerHTML = `🌹 MasyaAllah! ${sholawatCount} sholawat telah dipanjatkan. Semoga mendapat syafaat Rasulullah ﷺ! 🌹`;
+                    createFloatingStars();
+                } else if (sholawatCount % 10 === 0) {
+                    document.getElementById('sholawat-result').innerHTML = `✨ Shallallahu 'alaihi wasallam! ${sholawatCount} sholawat terhitung. Terus bersholawat! ✨`;
+                } else {
+                    const sholawatMessages = ["ﷺ", "Shallallahu 'alaihi wasallam", "Radhiyallahu 'anhu", "Barakallahu fiik"];
+                    document.getElementById('sholawat-result').innerHTML = sholawatMessages[Math.floor(Math.random() * sholawatMessages.length)] + " 🌹";
+                }
+            } else if (type === 'istighfar') {
+                istighfarCount++;
+                document.getElementById('istighfar-counter').textContent = istighfarCount;
+                
+                if (istighfarCount % 70 === 0) {
+                    document.getElementById('istighfar-result').innerHTML = `🤲 Alhamdulillah! ${istighfarCount} istighfar telah dibaca. Semoga Allah mengampuni dosa-dosa kita! 🤲`;
+                    createFloatingStars();
+                } else if (istighfarCount % 10 === 0) {
+                    document.getElementById('istighfar-result').innerHTML = `✨ Astaghfirullah al-'azhim! ${istighfarCount} istighfar terhitung. Terus beristighfar! ✨`;
+                } else {
+                    const istighfarMessages = ["Taubatan nasuha", "Ghaffarurrahim", "Astaghfirullah", "Robbighfirli"];
+                    document.getElementById('istighfar-result').innerHTML = istighfarMessages[Math.floor(Math.random() * istighfarMessages.length)] + " 🤲";
+                }
+            }
+        }
+
+        function resetCounter(type) {
+            if (type === 'tasbih') {
+                tasbihCount = 0;
+                document.getElementById('tasbih-counter').textContent = tasbihCount;
+                document.getElementById('tasbih-result').innerHTML = "Tasbih di-reset. Mari mulai berzikir lagi! 📿";
+            } else if (type === 'sholawat') {
+                sholawatCount = 0;
+                document.getElementById('sholawat-counter').textContent = sholawatCount;
+                document.getElementById('sholawat-result').innerHTML = "Counter sholawat di-reset. Mari perbanyak sholawat! 🌹";
+            } else if (type === 'istighfar') {
+                istighfarCount = 0;
+                document.getElementById('istighfar-counter').textContent = istighfarCount;
+                document.getElementById('istighfar-result').innerHTML = "Counter istighfar di-reset. Mari perbanyak istighfar! 🤲";
+            }
+        }
+
+        function getDailyDua() {
+            const dua = dailyDuas[Math.floor(Math.random() * dailyDuas.length)];
+            document.getElementById('dua-result').innerHTML = `
+                <div class="arabic-text">${dua.arabic}</div>
+                <div class="translation">${dua.translation}</div>
+            `;
+            createFloatingStars();
+        }
+
+        function getQuranVerse() {
+            const verse = quranVerses[Math.floor(Math.random() * quranVerses.length)];
+            document.getElementById('quran-result').innerHTML = `
+                <div class="arabic-text">${verse.arabic}</div>
+                <div class="translation">${verse.translation}</div>
+            `;
+            createFloatingStars();
+        }
+
+        function showPrayerTimes() {
+            const times = {
+                'Subuh': '04:30',
+                'Dzuhur': '12:00',
+                'Ashar': '15:15',
+                'Maghrib': '18:00',
+                'Isya': '19:15'
+            };
+            
+            let prayerHTML = '<div class="prayer-times"><strong>🕌 Waktu Sholat (Perkiraan):</strong><br>';
+            for (const [prayer, time] of Object.entries(times)) {
+                prayerHTML += `${prayer}: ${time} | `;
+            }
+            prayerHTML = prayerHTML.slice(0, -3) + '</div>';
+            prayerHTML += '<small>*Waktu dapat berbeda sesuai lokasi. Silakan cek jadwal sholat daerah Anda.</small>';
+            
+            document.getElementById('prayer-result').innerHTML = prayerHTML;
+        }
+
+        function getWisdom() {
+            const wisdom = islamicWisdom[Math.floor(Math.random() * islamicWisdom.length)];
+            document.getElementById('wisdom-result').innerHTML = `💎 ${wisdom} 💎`;
+            createFloatingStars();
+        }
+
+        function getGoodDeedChallenge() {
+            const challenge = goodDeedChallenges[Math.floor(Math.random() * goodDeedChallenges.length)];
+            document.getElementById('challenge-result').innerHTML = `🎯 <strong>Challenge Hari Ini:</strong><br>${challenge}<br><small>Semoga Allah membalas kebaikan Anda!</small>`;
+        }
+
+        function getAsmaulHusna() {
+            const asma = asmaulHusna[Math.floor(Math.random() * asmaulHusna.length)];
+            document.getElementById('asma-result').innerHTML = `
+                <div class="arabic-text">${asma.arabic}</div>
+                <div><strong>${asma.name}</strong></div>
+                <div class="translation">${asma.meaning}</div>
+            `;
+            createFloatingStars();
+        }
+
+        function getHadith() {
+            const hadith = hadithCollection[Math.floor(Math.random() * hadithCollection.length)];
+            document.getElementById('hadith-result').innerHTML = `
+                <div>"${hadith.text}"</div>
+                <div class="translation"><small>${hadith.source}</small></div>
+            `;
+            createFloatingStars();
+        }
+
+        function createFloatingStars() {
+            const stars = ['⭐', '✨', '🌟', '💫'];
+            for (let i = 0; i < 6; i++) {
+                setTimeout(() => {
+                    const star = document.createElement('div');
+                    star.className = 'floating-stars';
+                    star.textContent = stars[Math.floor(Math.random() * stars.length)];
+                    star.style.left = Math.random() * 100 + 'vw';
+                    star.style.top = Math.random() * 100 + 'vh';
+                    star.style.animationDelay = Math.random() * 2 + 's';
+                    document.body.appendChild(star);
+                    
+                    setTimeout(() => {
+                        star.remove();
+                    }, 4000);
+                }, i * 200);
+            }
+        }
+
+        // Auto reminder setiap 5 menit
+        setInterval(() => {
+            if (Math.random() > 0.8) {
+                createFloatingStars();
+            }
+        }, 300000);
+    </script>
+</body>
+</html>
